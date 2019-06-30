@@ -1,4 +1,17 @@
 {
-  "extends": "airbnb-base",
-  "parser": "@typescript-eslint/parser"
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/indent": ["error", 2]
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "project": "./tsconfig.json"
+  }
 }
