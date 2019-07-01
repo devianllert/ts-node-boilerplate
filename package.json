@@ -2,7 +2,16 @@
   "name": "ts-node-boilerplate",
   "version": "0.0.0",
   "description": "Boilerplate for Node.js projects with TypeScript",
-  "author": "Ruslan Povolockii",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devianllert/ts-node-boilerplate.git"
+  },
+  "author": "Ruslan Povolockii <devianllert@gmail.com>",
+  "homepage": "https://github.com/devianllert/ts-node-boilerplate",
+  "bugs": {
+    "url": "https://github.com/devianllert/ts-node-boilerplate/issues"
+  },
+  "license": "MIT",
   "main": "src/main.ts",
   "scripts": {
     "build": "npm run lint:fix && npm run build:ts",
@@ -13,7 +22,6 @@
     "lint:fix": "eslint --fix --ext .ts .",
     "test": "jest --forceExit --coverage --verbose"
   },
-  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
