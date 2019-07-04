@@ -4,9 +4,7 @@ import User, { UserDocument } from './user.model';
 
 const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const users = await User.find();
-
-    console.log(users);
+    const users = await User.find().select('-password');
 
     return res.json(users);
   } catch (error) {
@@ -16,7 +14,7 @@ const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
 
 const createUser = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const isUserExist: UserDocument | null = await User.findOne({ email: req.body.email });
+    const isUserExist = !!(await User.findOne({ email: req.body.email }));
 
     if (isUserExist) {
       return res.json({ msg: 'User already exists' });
@@ -34,7 +32,6 @@ const createUser = async (req: Request, res: Response): Promise<Response> => {
 
     return res.header('x-auth-token', token).send(user);
   } catch (error) {
-    console.log(error);
     return res.status(500).json(error);
   }
 };
