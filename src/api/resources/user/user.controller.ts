@@ -4,7 +4,7 @@ import User, { UserDocument } from './user.model';
 
 const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const users = await User.find().select('-password');
+    const users = await User.find();
 
     return res.json(users);
   } catch (error) {

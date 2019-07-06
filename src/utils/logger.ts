@@ -15,6 +15,7 @@ const options: LoggerOptions = {
   transports: [
     new transports.File({ filename: path.join(__dirname, '..', '..', 'log/debug.log'), level: 'debug' }),
     new transports.File({ filename: path.join(__dirname, '..', '..', 'log/error.log'), level: 'error' }),
+    new transports.File({ filename: path.join(__dirname, '..', '..', 'log/info.log'), level: 'info' }),
   ],
 };
 

@@ -7,8 +7,6 @@ const connectDB = async (): Promise<void> => {
       useCreateIndex: true,
       useFindAndModify: false,
     });
-
-    console.log('MongoDB connected');
   } catch (error) {
     console.error(error.message);
 
@@ -17,7 +15,9 @@ const connectDB = async (): Promise<void> => {
   }
 };
 
-mongoose.connection.on('error', console.log);
+mongoose.connection.on('connected', () => console.log('Mongo DB connected'));
 mongoose.connection.on('disconnected', connectDB);
+mongoose.connection.on('reconnected', () => console.log('Mongo DB reconnected'));
+mongoose.connection.on('error', console.log);
 
 export default connectDB;
