@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', router);
 
 app.set('port', process.env.PORT || 3000);
+app.set('env', process.env.NODE_ENV);
 
 app.listen(
   app.get('port'),
