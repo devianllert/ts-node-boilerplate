@@ -1,40 +1,25 @@
 import { Request, Response } from 'express';
 
-import User, { UserDocument } from './user.model';
+import UserService from './user.service';
 
 const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const users = await User.find();
+    const users = await UserService.getAllUsers();
 
-    return res.json(users);
+    return res.status(200).json(users);
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json({ message: error.message });
   }
 };
 
 const createUser = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const isUserExist = !!(await User.findOne({ email: req.body.email }));
+    const user = await UserService.createUser(req.body);
+    const token = user.generateToken();
 
-    if (isUserExist) {
-      return res.json({ msg: 'User already exists' });
-    }
-
-    const user: UserDocument = new User({
-      email: req.body.email,
-      username: req.body.username,
-      password: req.body.password,
-    });
-
-    user.avatar = user.gravatar();
-
-    await user.save();
-
-    const token: string = user.generateToken();
-
-    return res.header('x-auth-token', token).send(user);
+    return res.status(200).header('x-auth-token', token).json(user);
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(400).json({ message: error.message });
   }
 };
 

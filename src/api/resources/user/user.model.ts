@@ -10,6 +10,7 @@ export const enum UserRole {
 
 export type UserDocument = Document & {
   email: string;
+  username: string;
   password: string;
   avatar: string;
   role: UserRole;
