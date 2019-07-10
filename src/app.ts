@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
 
-import connectDB from './config/db';
+import connectDB from './db';
 import router from './api/router';
 
 dotenv.config();
@@ -16,12 +16,11 @@ app.use('/api', router);
 app.set('port', process.env.PORT || 3000);
 app.set('env', process.env.NODE_ENV);
 
-app.listen(
-  app.get('port'),
-  (): void => {
-    connectDB();
+const createServer = async (): Promise<void> => {
+  await connectDB();
+  await app.listen(app.get('port'));
 
-    console.log('App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
-    console.log('Press CTRL-C to stop\n');
-  },
-);
+  console.log('App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
+};
+
+createServer();

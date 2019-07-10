@@ -1,4 +1,4 @@
-import mongoose, { Schema, HookNextFunction } from 'mongoose';
+import mongoose, { Schema, HookNextFunction, Document } from 'mongoose';
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
@@ -8,7 +8,7 @@ export const enum UserRole {
   admin = 'admin',
 }
 
-export type UserDocument = mongoose.Document & {
+export type UserDocument = Document & {
   email: string;
   password: string;
   avatar: string;
@@ -16,37 +16,47 @@ export type UserDocument = mongoose.Document & {
   date: Date;
   comparePassword: (password: string) => Promise<boolean>;
   generateToken: () => string;
+  gravatar: () => string;
 };
 
-const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
+const userSchema = new Schema(
+  {
+    avatar: {
+      type: String,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+    },
+    resetPasswordToken: {
+      type: String,
+      select: false,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      select: false,
+    },
+    role: {
+      type: String,
+      enum: [UserRole.user, UserRole.admin],
+      default: UserRole.user,
+    },
   },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    lowercase: true,
+  {
+    timestamps: true,
   },
-  password: {
-    type: String,
-    required: true,
-    select: false,
-  },
-  avatar: {
-    type: String,
-  },
-  role: {
-    type: String,
-    enum: [UserRole.user, UserRole.admin],
-    default: UserRole.user,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
+);
 
 /**
  * Password hash middleware.
@@ -71,7 +81,7 @@ userSchema.pre('save', async function save(next: HookNextFunction): Promise<Hook
 });
 
 /**
- * Helper method for creating token for current user
+ * Helper method for creating user's token
  */
 userSchema.methods.generateToken = function generateToken(): string {
   const { id, role } = this as UserDocument;
