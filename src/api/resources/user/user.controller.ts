@@ -26,6 +26,8 @@ const createUser = async (req: Request, res: Response): Promise<Response> => {
       password: req.body.password,
     });
 
+    user.avatar = user.gravatar();
+
     await user.save();
 
     const token: string = user.generateToken();
