@@ -21,7 +21,8 @@
     "clean": "rimraf dist",
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --fix --ext .ts .",
-    "test": "jest --forceExit --coverage --verbose"
+    "test": "jest --forceExit --coverage --verbose",
+    "test:watch": "jest --forceExit --coverage --verbose --watchAll"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

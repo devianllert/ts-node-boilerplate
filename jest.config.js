@@ -6,11 +6,11 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.ts$': 'ts-jest',
   },
   transformIgnorePatterns: [
     '/node_modules/',
   ],
-  testMatch: ['**/*.spec.(js|jsx|ts|tsx)'],
+  testMatch: ['**/*.{spec,test}.{js,ts}'],
   testEnvironment: 'node',
 };
