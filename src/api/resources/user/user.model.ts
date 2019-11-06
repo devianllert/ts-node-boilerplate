@@ -109,7 +109,7 @@ userSchema.methods.comparePassword = async function comparePassword(password: st
 /**
  * Helper method for getting user's gravatar.
  */
-userSchema.methods.gravatar = function gravatar(size: number = 200): string {
+userSchema.methods.gravatar = function gravatar(size = 200): string {
   const user = this as UserDocument;
   const md5: string = crypto
     .createHash('md5')
